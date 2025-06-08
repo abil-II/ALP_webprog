@@ -2,7 +2,7 @@
 session_start();
 include 'connection.php';
 $conn = my_connectDB();
-
+//done
 if (isset($_POST['submit'])) {
     $nama = mysqli_real_escape_string($conn, trim($_POST['username']));
     $password = trim($_POST['password']);
