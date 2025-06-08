@@ -82,6 +82,9 @@ my_closeDB($conn);
             <li><a href="index.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Beranda</a></li>
             <li><a href="produk.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Produk</a></li>
             <li><a href="kategori.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Kategori</a></li>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+        <li><a href="read.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Entry Management</a></li>
+    <?php endif; ?>
         </ul>
         <div style="position: relative; min-width: 40px;">
         <button id="toggleLogout" type="button">
