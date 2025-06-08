@@ -17,6 +17,7 @@ if (isset($_POST['submit'])) {
         echo "Input: '" . $password . "' | DB: '" . $user['password'] . "'";
 
         if (trim($password) === trim($user['password'])) {
+            $_SESSION['id'] = $user['user_id'];
             $_SESSION['nama'] = $user['nama'];
             $_SESSION['role'] = $user['role'];
             echo "<script>alert('Login Berhasil'); window.location.href='index.php';</script>";
