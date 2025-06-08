@@ -82,9 +82,18 @@ my_closeDB($conn);
             <li><a href="index.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Beranda</a></li>
             <li><a href="produk.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Produk</a></li>
             <li><a href="kategori.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Kategori</a></li>
-            <li><a href="register.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Sign Up</a></li>
-            <li><a href="login.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Login</a></li>
         </ul>
+        <div style="position: relative; min-width: 40px;">
+        <button id="toggleLogout" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+          </svg>
+        </button>
+        <div id="logoutMenu" style="display:none; position:absolute; top:0%; left:-110%; background:white; border:1px solid #e5e7eb; border-radius:0.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.08); z-index:1000; min-width:100px;">
+          <a href="logout.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+          <a href="akun.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Akun</a>
+        </div>
+      </div>
     </div>
 </nav>
 
