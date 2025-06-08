@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); // Redirect if not logged in
-    exit;
+if (!isset($_SESSION['nama'])) {
+    header('Location: login.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -63,7 +63,7 @@ if (!isset($_SESSION['user_id'])) {
         <li><a href="kategori.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Kategori</a></li>
         <li><a href="register.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Sign Up</a></li>
         <li><a href="login.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Login</a></li>
-        <li><a href="login.php">logout</a>
+        <li><a href="logout.php">Logout</a></li>
       </ul>
     </div>
 </nav>
