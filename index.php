@@ -166,8 +166,8 @@ my_closeDB($conn);
 
       <?php
       foreach ($products as $product): ?>
-        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition dark:bg-gray-800" data-category="<?= htmlspecialchars($product['category']) ?>">
-          <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="w-full h-56 object-cover" />
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition dark:bg-gray-800" data-category="<?= htmlspecialchars($product['kategori_id']) ?>">
+          <img src="<?= htmlspecialchars($product['gambar']) ?>" alt="<?= htmlspecialchars($product['nama_produk']) ?>" class="w-full h-56 object-cover" />
           <div class="p-4 flex flex-col items-center justify-center">
           <h4 class="text-2xl font-bold mb-4"><?= htmlspecialchars($product['nama_produk']) ?></h4>
           <p class="text-lg font-semibold text-white mb-4">Rp <?= number_format($product['harga'], 0, ',', '.') ?></p>
