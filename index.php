@@ -11,7 +11,7 @@ include 'connection.php';
 
 // Fetch products from the database
 $conn = my_connectDB();
-$query = "SELECT * FROM produk"; // Fetch all products from the 'produk' table
+$query = "SELECT * FROM produk WHERE stok > 0"; // Hanya produk dengan stok > 0
 $result = mysqli_query($conn, $query);
 $products = [];
 if ($result) {
@@ -78,23 +78,39 @@ my_closeDB($conn);
       </form>
 
       <!-- Navigation Links -->
-      <ul class="flex space-x-8 text-sm font-medium"> <!-- Increased spacing with space-x-8 -->
+      <ul id="mainNavLinks" class="flex space-x-8 text-sm font-medium hidden md:flex"> <!-- Hide on small screens, show on md+ -->
         <li><a href="index.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Beranda</a></li>
         <li><a href="produk.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Produk</a></li>
         <li><a href="kategori.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Kategori</a></li>
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
           <li><a href="read.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Entry Management</a></li>
         <?php endif; ?>
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
+          <li><a href="keranjang.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Keranjang</a></li>
+        <?php endif; ?>
+        <li><a href="akun.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Akun</a></li>
+        <li><a href="logout.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Logout</a></li>
       </ul>
       <div style="position: relative; min-width: 40px;">
-        <button id="toggleLogout" type="button">
+        <button id="toggleLogout" type="button" class="md:hidden"> <!-- Show on small screens only -->
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
           </svg>
         </button>
-        <div id="logoutMenu" style="display:none; position:absolute; top:0%; left:-110%; background:white; border:1px solid #e5e7eb; border-radius:0.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.08); z-index:1000; min-width:100px;">
+
+        <!-- Mobile Nav Dropdown -->
+        <div id="mobileNavLinks" class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50">
           <a href="logout.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
           <a href="akun.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Akun</a>
+          <a href="index.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Beranda</a>
+          <a href="produk.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Produk</a>
+          <a href="kategori.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Kategori</a>
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="read.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Entry Management</a>
+          <?php endif; ?>
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
+            <a href="keranjang.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Entry Management</a>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -129,7 +145,7 @@ my_closeDB($conn);
     </div>
     <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       <!-- Example Product Card -->
-      
+
 
       <?php
       foreach ($products as $product): ?>
@@ -187,6 +203,24 @@ my_closeDB($conn);
       var toggleBtn = document.getElementById('toggleLogout');
       if (!logoutMenu.contains(event.target) && !toggleBtn.contains(event.target)) {
         logoutMenu.style.display = 'none';
+      }
+    });
+    // Mobile nav toggle
+    document.getElementById('toggleLogout').addEventListener('click', function(event) {
+      event.stopPropagation();
+      var mobileNav = document.getElementById('mobileNavLinks');
+      if (mobileNav.style.display === 'none' || mobileNav.style.display === '') {
+        mobileNav.style.display = 'block';
+      } else {
+        mobileNav.style.display = 'none';
+      }
+    });
+    // Hide mobile nav when clicking outside
+    document.addEventListener('click', function(event) {
+      var mobileNav = document.getElementById('mobileNavLinks');
+      var toggleBtn = document.getElementById('toggleLogout');
+      if (mobileNav && !mobileNav.contains(event.target) && !toggleBtn.contains(event.target)) {
+        mobileNav.style.display = 'none';
       }
     });
   </script>

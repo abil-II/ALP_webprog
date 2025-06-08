@@ -55,6 +55,28 @@ if ($nama) {
         $role = $user['role'];
     }
 }
+
+// Ambil histori transaksi user
+$histori = [];
+if ($nama) {
+    // Ambil user_id
+    $user_id = null;
+    $q = mysqli_query($conn, "SELECT user_id FROM users WHERE nama = '" . mysqli_real_escape_string($conn, $nama) . "' LIMIT 1");
+    if ($row = mysqli_fetch_assoc($q)) {
+        $user_id = $row['user_id'];
+    }
+    if ($user_id) {
+        $q = mysqli_query($conn, "SELECT * FROM transaksi WHERE user_id = $user_id ORDER BY tanggal DESC");
+        while ($row = mysqli_fetch_assoc($q)) {
+            $row['detail'] = [];
+            $qd = mysqli_query($conn, "SELECT td.*, p.nama_produk FROM transaksi_detail td JOIN produk p ON td.produk_id=p.id WHERE td.transaksi_id=" . $row['transaksi_id']);
+            while ($d = mysqli_fetch_assoc($qd)) {
+                $row['detail'][] = $d;
+            }
+            $histori[] = $row;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,6 +126,36 @@ if ($nama) {
         <?php else: ?>
         <div class="mb-4 text-red-600 text-center">Anda belum login.</div>
         <?php endif; ?>
+        <?php if (!empty($histori)): ?>
+    <div class="mt-8">
+        <h3 class="text-xl font-bold mb-4 text-blue-700">Histori Pembelian</h3>
+        <?php foreach ($histori as $trx): ?>
+            <div class="mb-6 border rounded-lg p-4 bg-gray-50">
+                <div class="mb-2 font-semibold">No. Transaksi: <span class="font-mono text-blue-700"><?= $trx['transaksi_id'] ?></span></div>
+                <div class="mb-2 text-sm text-gray-600">Tanggal: <?= $trx['tanggal'] ?> | Status: <span class="font-semibold <?= $trx['status']==='selesai' ? 'text-green-600' : ($trx['status']==='dibatalkan' ? 'text-red-600' : 'text-yellow-600') ?>"><?= ucfirst($trx['status']) ?></span></div>
+                <table class="w-full text-sm mb-2">
+                    <thead>
+                        <tr class="text-gray-700">
+                            <th class="py-1 px-2 text-left">Produk</th>
+                            <th class="py-1 px-2">Jumlah</th>
+                            <th class="py-1 px-2">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($trx['detail'] as $d): ?>
+                        <tr>
+                            <td class="py-1 px-2"><?= htmlspecialchars($d['nama_produk']) ?></td>
+                            <td class="py-1 px-2 text-center"><?= $d['jumlah'] ?></td>
+                            <td class="py-1 px-2 text-right">Rp <?= number_format($d['total_harga_beli'],0,',','.') ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <div class="text-right font-bold">Total: Rp <?= number_format($trx['total'],0,',','.') ?></div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
         <div class="mt-4 text-center">
             <a href="index.php" class="text-blue-600 hover:underline">Kembali ke Beranda</a>
         </div>
