@@ -10,22 +10,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = my_connectDB();
 
     // Sanitize and validate input
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $nama = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
     $role = mysqli_real_escape_string($conn, $_POST['role']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
 
-    // Check if username already exists
-    $check = mysqli_query($conn, "SELECT * FROM users WHERE username='$username' LIMIT 1");
+    // Cek apakah nama sudah ada
+    $check = mysqli_query($conn, "SELECT * FROM users WHERE nama='$nama' LIMIT 1");
     if (!$check) {
         $error = 'Database query failed: ' . mysqli_error($conn);
     } elseif (mysqli_fetch_assoc($check)) {
-        $error = 'Username sudah terdaftar!';
+        $error = 'Nama sudah terdaftar!';
     } else {
-        // Hash the password
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-
-        // Insert the new user into the database
-        $insert = mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$username', '$hashed', '$role')");
+        // Jangan hash password, simpan plain text (tidak disarankan untuk produksi)
+        $insert = mysqli_query($conn, "INSERT INTO users (nama, password, email, role) VALUES ('$nama', '$password', '$email', '$role')");
         if ($insert) {
             $success = 'Registrasi berhasil! Silakan login.';
         } else {
@@ -62,6 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-4">
                 <label class="block mb-1 font-medium" for="password">Password</label>
                 <input type="password" name="password" id="password" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1 font-medium" for="email">Email</label>
+                <input type="email" name="email" id="email" required
                     class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div class="mb-6">
