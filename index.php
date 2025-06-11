@@ -85,9 +85,7 @@ my_closeDB($conn);
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
           <li><a href="read.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Entry Management</a></li>
         <?php endif; ?>
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
-          <li><a href="keranjang.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Keranjang</a></li>
-        <?php endif; ?>
+        
         <li><a href="akun.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Akun</a></li>
         <li><a href="logout.php" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Logout</a></li>
       </ul>
@@ -107,9 +105,6 @@ my_closeDB($conn);
           <a href="kategori.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Kategori</a>
           <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <a href="read.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Entry Management</a>
-          <?php endif; ?>
-          <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
-            <a href="keranjang.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Entry Management</a>
           <?php endif; ?>
         </div>
       </div>
@@ -186,6 +181,16 @@ my_closeDB($conn);
       &copy; 2025 StepIn. All rights reserved.
     </div>
   </footer>
+
+  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
+    <!-- Floating Cart Button -->
+    <a href="keranjang.php" title="Keranjang" class="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg p-4 flex items-center justify-center transition-all duration-300" style="box-shadow: 0 4px 24px rgba(0,0,0,0.2);">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+        <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z" />
+        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+      </svg>
+    </a>
+  <?php endif; ?>
 
   <script>
     document.getElementById('toggleLogout').addEventListener('click', function(event) {
